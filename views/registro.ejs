@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta | Control de gastos</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/registro.css">
+</head>
+<body>
+    <main class="registro-container">
+
+        <!-- Panel izquierdo -->
+        <section class="registro-info">
+            <a href="/login" class="brand">
+                <span class="brand-icon">€</span>
+                <span>Controla</span>
+            </a>
+
+            <div class="info-content">
+                <p class="eyebrow">EMPIEZA HOY</p>
+
+                <h1>Organiza tu dinero.<br>
+                    <span>Gana tranquilidad.</span>
+                </h1>
+
+                <p class="info-description">
+                    Crea tu cuenta y empieza a controlar tus ingresos,
+                    tus gastos y tu saldo desde un único lugar.
+                </p>
+
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Registra tus ingresos y gastos</span>
+                </div>
+
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Consulta tu saldo actualizado</span>
+                </div>
+
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    <span>Organiza tus finanzas a tu ritmo</span>
+                </div>
+            </div>
+
+            <p class="info-footer">
+                Tu dinero, tus decisiones.
+            </p>
+        </section>
+
+        <!-- Panel del formulario -->
+        <section class="registro-form-panel">
+            <div class="registro-form-wrapper">
+
+                <a href="/login" class="mobile-brand">
+                    <span class="brand-icon">€</span>
+                    <span>Controla</span>
+                </a>
+
+                <p class="welcome">CREA TU CUENTA</p>
+                <h2>Únete a Controla</h2>
+
+                <p class="form-description">
+                    Completa tus datos para empezar.
+                </p>
+
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <p class="error-message" role="alert"><%= error %></p>
+                <% } %>
+
+                <form action="/registro" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Tu nombre"
+                            autocomplete="name"
+                            minlength="2"
+                            maxlength="60"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="tu@correo.com"
+                            autocomplete="email"
+                            maxlength="254"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Mínimo 8 caracteres"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                        <p class="input-hint">
+                            Utiliza al menos 8 caracteres.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmarPassword">
+                            Confirmar contraseña
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmarPassword"
+                            name="confirmarPassword"
+                            placeholder="Repite tu contraseña"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="registro-button">
+                        Crear cuenta
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p class="login-link">
+                    ¿Ya tienes una cuenta?
+                    <a href="/login">Inicia sesión</a>
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
