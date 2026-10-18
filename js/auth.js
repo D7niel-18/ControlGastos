@@ -1,15 +1,6 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
 
-const router = express.Router();
-export const usuarios = [
-    {
-    id: 1,
-    nombre: 'Daniel',
-    email: 'daniel@gmail.com',
-    password: 'prueba' 
-    },
-];
+export const usuarios = [];
 
 export function validarRegistro(nombre, email, password, confirmarPassword) {
     if (!nombre || !email || !password || !confirmarPassword) {

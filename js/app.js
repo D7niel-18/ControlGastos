@@ -19,9 +19,7 @@ app.get('/', (req,res)=>{
 })
 
 app.get('/dashboard', (req, res) => {
-    res.render('dashboard', {
-        usuario: usuario
-    });
+    res.render('dashboard');
 });
 
 app.get('/login', (req,res)=>{

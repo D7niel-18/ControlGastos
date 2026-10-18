@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Control de gastos</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+    <header class="cabecera">
+        <h1>Control de gastos</h1>
+
+        <nav aria-label="Navegación principal">
+            <a href="/dashboard">Inicio</a>
+            <a href="#nuevo-gasto">Añadir gasto</a>
+            <a href="#mis-gastos">Mis gastos</a>
+            <a href="/login">Cerrar sesión</a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="bienvenida">
+            <h2>¡Hola!</h2>
+            <p>Gestiona tu saldo y controla tus gastos.</p>
+        </section>
+
+        <section class="resumen" aria-label="Resumen financiero">
+            <article class="tarjeta saldo">
+                <h3>Saldo actual</h3>
+                <p class="cantidad">0,00 €</p>
+
+                <form action="/saldo" method="POST">
+                    <label for="importe-saldo">Añadir dinero (€)</label>
+                    <input type="number" id="importe-saldo" name="importe"
+                        min="0.01" step="0.01" placeholder="Ej. 100" required>
+                    <button type="submit">Añadir saldo</button>
+                </form>
+            </article>
+
+            <article class="tarjeta">
+                <h3>Total de gastos</h3>
+                <p class="cantidad">0,00 €</p>
+                <p class="descripcion">Importe acumulado</p>
+            </article>
+        </section>
+
+        <section id="nuevo-gasto" class="panel">
+            <h2>Añadir un gasto</h2>
+
+            <form action="/gastos" method="POST" class="formulario">
+                <div class="campo">
+                    <label for="nombre">Nombre del gasto</label>
+                    <input type="text" id="nombre" name="nombre"
+                        maxlength="80" placeholder="Ej. Compra semanal" required>
+                </div>
+
+                <div class="campo">
+                    <label for="dinero">Importe (€)</label>
+                    <input type="number" id="dinero" name="dinero"
+                        min="0.01" step="0.01" placeholder="Ej. 25.50" required>
+                </div>
+
+                <div class="campo">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+
+                <div class="campo">
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Alimentación">Alimentación</option>
+                        <option value="Transporte">Transporte</option>
+                        <option value="Hogar">Hogar</option>
+                        <option value="Ocio">Ocio</option>
+                        <option value="Salud">Salud</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+
+                <button type="submit">Guardar gasto</button>
+            </form>
+        </section>
+
+        <section id="mis-gastos" class="panel">
+            <h2>Mis gastos</h2>
+
+            <p class="sin-gastos">Todavía no tienes gastos registrados.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Control de gastos &copy; 2026</p>
+    </footer>
+
+</body>
+</html>
