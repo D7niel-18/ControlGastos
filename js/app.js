@@ -16,7 +16,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: 'cambia-esto-por-una-cadena-larga-y-secreta',
+    secret: '34asdjkahdia2123asdyug',
     resave: false,
     saveUninitialized: false
 }));
@@ -28,7 +28,11 @@ app.get('/', (req,res)=>{
 })
 
 app.get('/dashboard', verificarSesion, (req, res) => {
-    res.render('dashboard');
+    const usuario = usuarios.find(u => u.id === req.session.usuarioId);
+    res.render('dashboard', {
+        nombre: usuario.nombre,
+        saldo: usuario.saldo
+    });
 });
 
 app.get('/login', (req,res)=>{
@@ -78,7 +82,8 @@ app.post('/registro',  async (req, res) => {
         id: usuarios.length + 1,
         nombre: nombre.trim(),
         email: correo.trim().toLowerCase(),
-        password: passwordHash
+        password: passwordHash,
+        saldo: 0
     };
 
     usuarios.push(nuevoUsuario);
@@ -120,8 +125,20 @@ app.post('/login', async (req, res) => {
     res.redirect('/dashboard');
 });
 
-app.post('/saldo', verificarSesion, async (req, res) => {
-    const saldo = req.body.saldo;
+app.post('/saldo', verificarSesion, (req, res) => {
+    const usuario = usuarios.find(u => u.id === req.session.usuarioId);
+    const importe = Number(req.body.importe);
+
+    if (Number.isNaN(importe) || importe <= 0) {
+        return res.status(400).render('dashboard', {
+            nombre: usuario.nombre,
+            saldo: usuario.saldo,
+            error: 'Introduce un importe válido.'
+        });
+    }
+
+    usuario.saldo += importe;
+    res.redirect('/dashboard');
 });
 
 /* Rutas no encontradas - 404 */

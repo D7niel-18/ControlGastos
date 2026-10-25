@@ -1,5 +1,3 @@
-import express from 'express';
-
 export const usuarios = [];
 
 export function validarRegistro(nombre, email, password, confirmarPassword) {

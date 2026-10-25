@@ -23,14 +23,18 @@
     <main class="contenedor">
 
         <section class="bienvenida">
-            <h2>¡Hola!</h2>
+            <h2>¡Hola, <%= nombre %>!</h2>
             <p>Gestiona tu saldo y controla tus gastos.</p>
         </section>
 
         <section class="resumen" aria-label="Resumen financiero">
             <article class="tarjeta saldo">
                 <h3>Saldo actual</h3>
-                <p class="cantidad">0,00 €</p>
+                <p class="cantidad"><%= saldo.toFixed(2) %> €</p>
+                
+                <% if (locals.error) { %>
+                    <p class="error"><%= error %></p>
+                <% } %>
 
                 <form action="/saldo" method="POST">
                     <label for="importe-saldo">Añadir dinero (€)</label>
