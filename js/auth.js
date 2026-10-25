@@ -23,3 +23,11 @@ export function validarRegistro(nombre, email, password, confirmarPassword) {
 
     return true;
 }
+/* Funcion para comprobar si alguien ha iniciado sesion y si no redirige a login */
+export function verificarSesion(req,res,next) {
+    if(req.session.usuarioId !== undefined){
+        next();
+    }else{
+       return res.redirect('/login');
+    }
+}

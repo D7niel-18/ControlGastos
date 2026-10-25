@@ -1,16 +1,25 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import { validarRegistro, usuarios } from './auth.js';
+import session from 'express-session';
+import { validarRegistro, usuarios, verificarSesion } from './auth.js';
 
 const app = express();
 const PORT = 3000;
+
 // Configurar el motor de plantillas EJS
 app.set('view engine', 'ejs');
+
 // Indicar a Express que sirva de forma automática los archivos de la carpeta 'public'
 app.use(express.static('public'));
 
 /* Middleware - para recoger datos de formulario */
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'cambia-esto-por-una-cadena-larga-y-secreta',
+    resave: false,
+    saveUninitialized: false
+}));
 
 /* Rutas - GET */
 
@@ -18,7 +27,7 @@ app.get('/', (req,res)=>{
     res.redirect('/login');
 })
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', verificarSesion, (req, res) => {
     res.render('dashboard');
 });
 
@@ -105,11 +114,20 @@ app.post('/login', async (req, res) => {
         });
     }
 
+    req.session.usuarioId = usuario.id;
+    req.session.nombre = usuario.nombre;
+
     res.redirect('/dashboard');
 });
 
+app.post('/saldo', verificarSesion, async (req, res) => {
+    const saldo = req.body.saldo;
+});
 
-
+/* Rutas no encontradas - 404 */
+app.use((req, res) => {
+    res.status(404).render('404');
+})
 
 // Iniciar el servidor Express
 app.listen(PORT, () => {
