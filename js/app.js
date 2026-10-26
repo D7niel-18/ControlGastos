@@ -21,6 +21,17 @@ app.use(session({
     saveUninitialized: false
 }));
 
+
+function datosDashboard(usuario, extra = {}) {
+    return {
+        nombre: usuario.nombre,
+        saldo: usuario.saldo,
+        gastos: usuario.gastos,
+        totalGastos: usuario.totalGastos,
+        ...extra
+    };
+}
+
 /* Rutas - GET */
 
 app.get('/', (req,res)=>{
@@ -29,10 +40,7 @@ app.get('/', (req,res)=>{
 
 app.get('/dashboard', verificarSesion, (req, res) => {
     const usuario = usuarios.find(u => u.id === req.session.usuarioId);
-    res.render('dashboard', {
-        nombre: usuario.nombre,
-        saldo: usuario.saldo
-    });
+    res.render('dashboard', datosDashboard(usuario));
 });
 
 app.get('/login', (req,res)=>{
@@ -83,7 +91,9 @@ app.post('/registro',  async (req, res) => {
         nombre: nombre.trim(),
         email: correo.trim().toLowerCase(),
         password: passwordHash,
-        saldo: 0
+        saldo: 0,
+        gastos: [],
+        totalGastos: 0
     };
 
     usuarios.push(nuevoUsuario);
@@ -138,6 +148,41 @@ app.post('/saldo', verificarSesion, (req, res) => {
     }
 
     usuario.saldo += importe;
+    res.redirect('/dashboard');
+});
+
+const categoriasPermitidas = ['Alimentación', 'Transporte', 'Hogar', 'Ocio', 'Salud', 'Otros']
+
+app.post('/gastos', verificarSesion, (req, res) => {
+    const usuario = usuarios.find(u => u.id === req.session.usuarioId);
+
+    const nombreGasto = (req.body.nombre || '').trim();
+    const importeGasto = Number(req.body.dinero);
+    const fechaGasto = req.body.fecha;
+    const categoriaGasto = req.body.categoria;
+
+    if (!nombreGasto || Number.isNaN(importeGasto) || importeGasto <= 0 || !fechaGasto || !categoriasPermitidas.includes(categoriaGasto)) {
+        return res.status(400).render('dashboard', datosDashboard(usuario, {
+            error: 'Comprueba los datos del gasto.'
+        }));
+    }
+
+    if (importeGasto > usuario.saldo) {   // (resta)
+        return res.status(400).render('dashboard', datosDashboard(usuario, {
+            error: 'No tienes saldo suficiente para este gasto.'
+        }));
+    }
+
+    usuario.gastos.push({
+        id: usuario.gastos.length + 1,
+        nombre: nombreGasto,
+        importe: importeGasto,
+        fecha: fechaGasto,
+        categoria: categoriaGasto
+    });
+    usuario.totalGastos += importeGasto;
+    usuario.saldo -= importeGasto;   // (resta)
+
     res.redirect('/dashboard');
 });
 

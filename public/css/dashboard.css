@@ -265,3 +265,31 @@ footer {
         flex-wrap: wrap;
     }
 }
+
+.etiqueta {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #17263a;
+    border: 1px solid #2d4b70;
+    color: #3984f5;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.gasto {
+    border-left: 4px solid #3984f5;
+    transition: transform 0.15s, border-color 0.15s;
+}
+
+.gasto:hover {
+    transform: translateX(4px);
+    border-color: #5aa0ff;
+}
+
+.importe-gasto {
+    color: #ff8585;
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+}

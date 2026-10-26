@@ -46,7 +46,7 @@
 
             <article class="tarjeta">
                 <h3>Total de gastos</h3>
-                <p class="cantidad">0,00 €</p>
+                <p class="cantidad"><%= totalGastos.toFixed(2) %> €</p>
                 <p class="descripcion">Importe acumulado</p>
             </article>
         </section>
@@ -92,7 +92,24 @@
         <section id="mis-gastos" class="panel">
             <h2>Mis gastos</h2>
 
-            <p class="sin-gastos">Todavía no tienes gastos registrados.</p>
+            <% if (gastos.length === 0) { %>
+                <p class="sin-gastos">Todavía no tienes gastos registrados.</p>
+            <% } else { %>
+                <div class="lista-gastos">
+                    <% gastos.forEach(gasto => { %>
+                        <article class="gasto">
+                            <div class="datos-gasto">
+                                <h3><%= gasto.nombre %></h3>
+                                <p>
+                                    <span class="etiqueta"><%= gasto.categoria %></span>
+                                    · <%= gasto.fecha %>
+                                </p>
+                            </div>
+                            <p class="importe-gasto">- <%= gasto.importe.toFixed(2) %> €</p>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } %>
         </section>
 
     </main>
